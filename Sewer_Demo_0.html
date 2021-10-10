@@ -8,21 +8,21 @@
 <body class="sewer-demo-0">
 <!--    <p class="debug-info" style="position: fixed; display: none"></p>-->
 
-    <div class="sewer-panel-container">
+<div class="sewer-panel-container">
 
-        <img class="l5" src="img/comic_demo/Comic_Animated_Concept_pipe_far.png">
-        <img class="l6" src="img/comic_demo/Comic_Animated_Concept_rat.png">
-        <img class="l5" src="img/comic_demo/Comic_Animated_Concept_pipe_far_stream.png">
-        <img class="l4" src="img/comic_demo/Comic_Animated_Concept_stream_far.png">
-        <img class="l3" src="img/comic_demo/Comic_Animated_Concept_stream_close.png">
-        <img class="l2" src="img/comic_demo/Comic_Animated_Concept_0_pipes_close.png">
-        <img class="l1" src="img/comic_demo/Comic_Animated_Concept_0_maya.png">
+    <img class="l5" src="img/comic_demo/Comic_Animated_Concept_pipe_far.png">
+    <img class="l6" src="img/comic_demo/Comic_Animated_Concept_rat.png">
+    <img class="l5" src="img/comic_demo/Comic_Animated_Concept_pipe_far_stream.png">
+    <img class="l4" src="img/comic_demo/Comic_Animated_Concept_stream_far.png">
+    <img class="l3" src="img/comic_demo/Comic_Animated_Concept_stream_close.png">
+    <img class="l2" src="img/comic_demo/Comic_Animated_Concept_0_pipes_close.png">
+    <img class="l1" src="img/comic_demo/Comic_Animated_Concept_0_maya.png">
 
-<!--        <img src="img/studying_small.png">-->
-<!--        <div class="test-circle"></div>-->
-<!---->
-<!--        <div class="test-box-static"></div>-->
-    </div>
+    <!--        <img src="img/studying_small.png">-->
+    <!--        <div class="test-circle"></div>-->
+    <!---->
+    <!--        <div class="test-box-static"></div>-->
+</div>
 <img class="sewer-outer" src="img/comic_demo/Comic_Animated_Concept_0_outer.png">
 
 </body>
@@ -41,24 +41,37 @@
     let l5 = $(".l5");
     let l6 = $(".l6");
 
+    let pageHeight = document.body.scrollHeight - window.innerHeight;
     // let offsetAmount = 750;
-    let offsetAmount = page.outerHeight() * .521;
+    let offsetAmount = Math.min(window.outerHeight * .70, 600);
 
-    page.scroll(function (){
 
-        offsetAmount = page.outerHeight() * .521;
+    page.scroll(function () {
 
-        let scrollPercent = page.scrollTop()/page.height();
+        let pageHeight = document.body.scrollHeight - window.innerHeight;
+
+        // console.log("page height: " + (document.body.scrollHeight - window.innerHeight))
+
+        // offsetAmount = 750;
+        // offsetAmount = window.outerHeight * .70;
+        offsetAmount = Math.min(window.outerHeight * .70, 600);
+
+        // let scrollPercent = page.scrollTop()/page.height();
+        let scrollPercent = page.scrollTop() / pageHeight;
         let offsetPercent = offsetAmount*scrollPercent - (offsetAmount*.5);
+        // let offsetPercent = offsetAmount * scrollPercent;
+
+        // console.log("scroll percent: "+scrollPercent)
+        console.log("offset amount: "+offsetAmount);
 
         // console.log("offset: "+offsetPercent);
 
-        l1.css("transform","translateY("+(offsetPercent*.05)+"px)");
-        l2.css("transform","translateY("+(offsetPercent*.4)+"px)");
-        l3.css("transform","translateY("+(offsetPercent*.5)+"px)");
-        l4.css("transform","translateY("+(offsetPercent*.7)+"px)");
-        l5.css("transform","translateY("+(offsetPercent*.8)+"px)");
-        l6.css("transform","translateY("+(offsetPercent*.9)+"px)");
+        l1.css("transform", "translateY(" + (offsetPercent * .05) + "px)");
+        l2.css("transform", "translateY(" + (offsetPercent * .4) + "px)");
+        l3.css("transform", "translateY(" + (offsetPercent * .5) + "px)");
+        l4.css("transform", "translateY(" + (offsetPercent * .7) + "px)");
+        l5.css("transform", "translateY(" + (offsetPercent * .8) + "px)");
+        l6.css("transform", "translateY(" + (offsetPercent * .9) + "px)");
 
 
     });
