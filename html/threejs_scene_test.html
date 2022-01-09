@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ThreeJS Scene Test</title>
+    <script src="./../js/core-functionality.js"></script>
+</head>
+<body style="margin: 0; padding: 0; height: 3000px;">
+
+<canvas id="c" width="1920px" height="1080px" style="position: fixed; width: 100%; height: 100%;"></canvas>
+
+
+<script type="module">
+
+    import * as THREE from "../js/threejs/three.module.js"
+
+    function lerp(start, end, amt) {
+        return (1 - amt) * start + amt * end
+    }
+
+    function clamp(num, min, max) {
+        return Math.min(Math.max(num, min), max);
+    }
+
+    function CreateSprite(source, width, height) {
+
+        let map = new THREE.TextureLoader().load(source);
+        let spriteMaterial = new THREE.SpriteMaterial({map: map});
+
+        let sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(width, height, 1);
+
+        return sprite;
+    }
+
+
+    let canvas = document.getElementById("c");
+    let renderer = new THREE.WebGLRenderer({canvas});
+    let camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .0, 1000);
+    let scene = new THREE.Scene();
+
+    let canvasWidth = canvas.clientWidth;
+    let canvasHeight = canvas.clientHeight;
+
+
+    function render(time) {
+        // time *= .001;
+
+        renderer.render(scene, camera);
+
+        requestAnimationFrame(render);
+    }
+
+
+    let spriteWidth = 2;
+    let spriteHeight = 2 * (canvasWidth / canvasHeight) * (3000 / 1080);
+
+    let sky = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Sky.png", spriteWidth, spriteHeight);
+    let light = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Light.png", spriteWidth, spriteHeight);
+    let building6 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_6.png", spriteWidth, spriteHeight);
+    let building5 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_5.png", spriteWidth, spriteHeight);
+    let building2 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_2.png", spriteWidth, spriteHeight);
+    let building4 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_4.png", spriteWidth, spriteHeight);
+    let building3 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_3.png", spriteWidth, spriteHeight);
+    let building1 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_1.png", spriteWidth, spriteHeight);
+    let building0 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Building_0.png", spriteWidth, spriteHeight);
+    let excavator = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Excavator.png", spriteWidth, spriteHeight);
+    let fence = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Fence.png", spriteWidth, spriteHeight);
+    let man = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Man.png", spriteWidth, spriteHeight);
+    let moon = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Moon.png", spriteWidth, spriteHeight);
+    let star0 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Star_0.png", spriteWidth, spriteHeight);
+    let star1 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Star_1.png", spriteWidth, spriteHeight);
+    let star2 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Star_2.png", spriteWidth, spriteHeight);
+    let star3 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Star_3.png", spriteWidth, spriteHeight);
+    let star4 = CreateSprite("../img/city_scene/v0/Oneshot_Techdemo_OpeningShot_Test_Piece_Star_4.png", spriteWidth, spriteHeight);
+
+    let sprites = [building0, building1, building2, building3, building4, building5, building6, excavator,
+        fence, light, man, moon, star0, star1, star2, star3, star4, sky];
+
+
+    for (let i = 0; i < sprites.length; i++) {
+        scene.add(sprites[i]);
+    }
+
+
+    function UpdateSpritePosition() {
+        let scrollPos = WindowScrollNormalPosition();
+        // let screenPos = lerp((-spriteHeight / 2) + 1, (spriteHeight / 2) - 1, scrollPos);
+
+        // console.log("screen pos: " + screenPos);
+        // console.log("spriteHeight: " + spriteHeight);
+        // console.log("_____________");
+
+
+        // for (let i = 0; i < sprites.length; i++) {
+        //     sprites[i].position.y = screenPos;
+        // }
+        let screenPos = lerp((-spriteHeight / 2) + 1, (spriteHeight / 2) - 1, scrollPos);
+
+        let ChangeScreenPos = function (startOffset, endOffset) {
+            screenPos = lerp((-spriteHeight / 2) + 1 + startOffset, (spriteHeight / 2) - 1 + endOffset, scrollPos);
+        }
+
+        sky.position.y = screenPos;
+
+        ChangeScreenPos(-3, 0);
+        light.position.y = screenPos;
+
+        ChangeScreenPos(.5, 0);
+        building6.position.y = screenPos;
+
+        ChangeScreenPos(0, 0);
+        building5.position.y = screenPos;
+
+        ChangeScreenPos(-.5, 0);
+        building2.position.y = screenPos;
+
+        ChangeScreenPos(-.5, 0);
+        building4.position.y = screenPos;
+
+        ChangeScreenPos(-1, 0);
+        building3.position.y = screenPos;
+
+        ChangeScreenPos(-1.5, 0);
+        building1.position.y = screenPos;
+
+        ChangeScreenPos(-1.8, 0);
+        building0.position.y = screenPos;
+
+        ChangeScreenPos(-5, 0);
+        excavator.position.y = screenPos;
+
+        ChangeScreenPos(-8, 0);
+        fence.position.y = screenPos;
+
+        ChangeScreenPos(-8, 0);
+        man.position.y = screenPos;
+
+        ChangeScreenPos(0, -.5);
+        moon.position.y = screenPos;
+
+        ChangeScreenPos(0, -1);
+        star0.position.y = screenPos;
+
+        ChangeScreenPos(0, -1);
+        star1.position.y = screenPos;
+
+        ChangeScreenPos(0, -1.5);
+        star2.position.y = screenPos;
+
+        ChangeScreenPos(0, -1.7);
+        star3.position.y = screenPos;
+
+        ChangeScreenPos(0, -2);
+        star4.position.y = screenPos;
+
+
+        renderer.render(scene, camera);
+
+    }
+
+    document.addEventListener("DOMContentLoaded", UpdateSpritePosition, false);
+
+    document.addEventListener("scroll", UpdateSpritePosition);
+
+    window.addEventListener("resize", function (event) {
+
+
+        canvasWidth = canvas.clientWidth;
+        canvasHeight = canvas.clientHeight;
+
+        spriteHeight = 2 * (canvasWidth / canvasHeight) * (3000 / 1080);
+
+        camera.aspect = canvasWidth / canvasHeight;
+        camera.updateProjectionMatrix();
+
+        let scrollPos = WindowScrollNormalPosition();
+        let screenPos = lerp((-spriteHeight / 2) + 1, (spriteHeight / 2) - 1, scrollPos);
+
+        for (let i = 0; i < sprites.length; i++) {
+            sprites[i].scale.set(2, spriteHeight, 1);
+            sprites[i].position.y = screenPos;
+        }
+
+    }, true);
+
+    requestAnimationFrame(render);
+
+
+</script>
+
+</body>
+</html>
